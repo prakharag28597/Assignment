@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 orderPlaced.setClickable(true);
-                Intent intent=new Intent(MainActivity.this,NewOrder.class);
+                Intent intent=new Intent(MainActivity.this,Category.class);
                 startActivity(intent);
             }
         });
@@ -46,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,OrderPlaced.class);
-                Bundle extras=new Bundle();
-                extras.putIntArray("qty",qty);
-                extras.putIntArray("price",price);
-                extras.putStringArray("name",name);
-                intent.putExtras(extras);
                 startActivity(intent);
             }
         });

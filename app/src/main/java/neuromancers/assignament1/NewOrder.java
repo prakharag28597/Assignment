@@ -108,6 +108,7 @@ public class NewOrder extends AppCompatActivity{
                 public void onClick(View view) {
                     if(qty[pos]>0)
                     --qty[pos];
+
                     qtyText.setText(Integer.toString(qty[pos]));
                 }
             });
