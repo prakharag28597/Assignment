@@ -47,6 +47,7 @@ public class OrderPlaced extends AppCompatActivity {
             //inserting data into the array
         else{
             i=0;
+
             while(cursor.moveToNext() && i<100){
                 n[i]=cursor.getString(1);
                 p[i]=cursor.getString(4);

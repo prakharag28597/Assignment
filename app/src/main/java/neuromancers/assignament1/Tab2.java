@@ -61,6 +61,7 @@ public class Tab2 extends Fragment {
             //inserting data into the array
         else{
             i=0;
+
             while(cursor.moveToNext() && i<100){
                 name[i]=cursor.getString(1);
                 cat[i]=cursor.getString(2);
@@ -100,12 +101,13 @@ public class Tab2 extends Fragment {
             }
             for(int i=0;i<100;++i){
                 if(cat[i].equals(Integer.toString(category)) && subcat[i].equals("B")) {
-                    ++count;
+
                     n[count]=name[i];
                     q[count]=qty[i];
                     p[count]=price[i];
                     c[count]=cat[i];
                     sc[count]=subcat[i];
+                    ++count;
                 }
             }
             return count;
@@ -150,7 +152,8 @@ public class Tab2 extends Fragment {
                     while(cursor.moveToNext() && c<100){
                         if(cursor.getString(1).equals(n[pos]))
                         {
-                            helper.updateData(Integer.toString(c),n[pos],q[pos],p[pos]);
+                            helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
+                            break;
                         }
                         ++c;
                     }
@@ -170,7 +173,8 @@ public class Tab2 extends Fragment {
                         while(cursor.moveToNext() && c<100){
                             if(cursor.getString(1).equals(n[pos]))
                             {
-                                helper.updateData(Integer.toString(c),n[pos],q[pos],p[pos]);
+                                helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
+                                break;
                             }
                             ++c;
                         }

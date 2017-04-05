@@ -7,6 +7,7 @@ package neuromancers.assignament1;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
@@ -31,7 +32,7 @@ public class LeafyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,ITEM_NAME TEXT,CATEGORY TEXT,SUBCATEGORY TEXT,PRICE TEXT,QTY TEXT)");
-        Log.d("kr","yes");
+        Log.d("lgchgch","yes");
     }
 
     @Override
@@ -39,6 +40,13 @@ public class LeafyDBHelper extends SQLiteOpenHelper {
         //removes the table if it already exists
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         onCreate(db);
+    }
+    public void reset () throws SQLException {
+        SQLiteDatabase db = this.getWritableDatabase ();
+        db.close();
+        db.execSQL ("drop table "+TABLE_NAME);
+        db.close ();
+        onCreate (db);
     }
 
     public void insertData(String itemName,String  category,String subcategory,String price,String qty) {
@@ -51,6 +59,7 @@ public class LeafyDBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_5,price);
         contentValues.put(COL_6,qty);
         long x= db.insert(TABLE_NAME,null ,contentValues);
+        Log.e("inset",""+x);
 
     }
 
@@ -68,14 +77,25 @@ public class LeafyDBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_5,price);
         contentValues.put(COL_6,qty);
         db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { id });
-        Log.e("lets","yo");
+        Log.e("lets",""+db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { id }));
+        return true;
+    }
+    public boolean updateQty(String id,String qty) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1,id);
+        contentValues.put(COL_6,qty);
+        db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { id });
+        Log.e("lets",""+db.update(TABLE_NAME, contentValues, "ID = ?",new String[] { id }));
         return true;
     }
 
 
     public void deleteAll(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        //db.execSQL("delete * from "+ TABLE_NAME);
+        SQLiteDatabase db = this.getWritableDatabase(); //get database
+        db.delete(TABLE_NAME, null,null);
+        db.close();
+
     }
 
     public Integer deleteData (String id) {

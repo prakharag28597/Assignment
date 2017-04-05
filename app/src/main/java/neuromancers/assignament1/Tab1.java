@@ -43,7 +43,7 @@ public class Tab1 extends Fragment {
         listA=(ListView)rootView.findViewById(R.id.listA);
         helper=new LeafyDBHelper(getContext());
         cursor=helper.getAllData();
-        int i=0;
+        int i;
         name=new String[100];
         price=new String[100];
         qty=new String[100];
@@ -62,6 +62,9 @@ public class Tab1 extends Fragment {
         //inserting data into the array
         else{
             i=0;
+
+           //
+            // Toast.makeText(getContext(),""+name[0],Toast.LENGTH_SHORT).show();
             while(cursor.moveToNext() && i<100){
                 name[i]=cursor.getString(1);
                 cat[i]=cursor.getString(2);
@@ -70,6 +73,7 @@ public class Tab1 extends Fragment {
                 qty[i]=cursor.getString(5);
                 ++i;
             }
+
         }
         Customadapter cust=new Customadapter();
         listA.setAdapter(cust);
@@ -80,7 +84,7 @@ public class Tab1 extends Fragment {
         category=cat;
     }
     public class Customadapter extends BaseAdapter{
-
+        //denotes the entries which are of particular categories and subcategories
         String n[];
         String q[];
         String p[];
@@ -103,15 +107,18 @@ public class Tab1 extends Fragment {
             }
             for(int i=0;i<100;++i) {
                 if (cat[i].equals(Integer.toString(category)) && subcat[i].equals("A")) {
-                    ++count;
+
                     n[count] = name[i];
                     q[count] = qty[i];
                     p[count] = price[i];
                     c[count] = cat[i];
                     sc[count] = subcat[i];
+                    ++count;
                 }
             }
-                return count;
+            Log.e("getcount",""+count);
+
+            return count;
 
         }
 
@@ -128,6 +135,7 @@ public class Tab1 extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             //setting up the views in listview
+            Log.e("getview",""+i);
             view=((Activity)getContext()).getLayoutInflater().inflate(R.layout.listview,null);
             TextView priceText=(TextView)view.findViewById(R.id.pricetext);
             TextView nameText=(TextView)view.findViewById(R.id.nametext);
@@ -145,19 +153,24 @@ public class Tab1 extends Fragment {
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("position pressed",""+pos);
                     int temp=Integer.parseInt(q[pos]);
                     ++temp;
-                    Log.e("temp"," "+temp);
+
                     q[pos]=Integer.toString(temp);
+                    Log.e("temp"," "+q[pos]);
                     qtyText.setText(q[pos]);
                     int c=0;
                     cursor.moveToFirst();
-                   while(cursor.moveToNext() && c<100){
+                   while( c<100){
                        if(cursor.getString(1).equals(n[pos]))
                        {
-                           helper.updateData(Integer.toString(c),n[pos],q[pos],p[pos]);
+                           Log.e("name",cursor.getString(1)+" "+c);
+                           helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
+                           break;
                        }
-                       ++c;
+                       cursor.moveToNext();
+                               ++c;
                    }
                 }
             });
@@ -175,7 +188,8 @@ public class Tab1 extends Fragment {
                         while(cursor.moveToNext() && c<100){
                             if(cursor.getString(1).equals(n[pos]))
                             {
-                                helper.updateData(Integer.toString(c),n[pos],q[pos],p[pos]);
+                                helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
+                                break;
                             }
                             ++c;
                         }
