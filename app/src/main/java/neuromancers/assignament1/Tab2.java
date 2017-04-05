@@ -149,13 +149,14 @@ public class Tab2 extends Fragment {
                     qtyText.setText(q[pos]);
                     cursor.moveToFirst();
                     int c=0;
-                    while(cursor.moveToNext() && c<100){
+                    while( c<100){
                         if(cursor.getString(1).equals(n[pos]))
                         {
                             helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
                             break;
                         }
                         ++c;
+                        cursor.moveToNext();
                     }
                 }
             });
@@ -170,13 +171,14 @@ public class Tab2 extends Fragment {
                         q[pos]=Integer.toString(temp);
                         cursor.moveToFirst();
                         int c=0;
-                        while(cursor.moveToNext() && c<100){
+                        while(c<100){
                             if(cursor.getString(1).equals(n[pos]))
                             {
                                 helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
                                 break;
                             }
                             ++c;
+                            cursor.moveToNext();
                         }
                     }
                     qtyText.setText(q[pos]);

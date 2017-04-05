@@ -185,12 +185,14 @@ public class Tab1 extends Fragment {
                         q[pos]=Integer.toString(temp);
                         int c=0;
                         cursor.moveToFirst();
-                        while(cursor.moveToNext() && c<100){
+                        while( c<100){
                             if(cursor.getString(1).equals(n[pos]))
                             {
                                 helper.updateData(Integer.toString(c+1),n[pos],q[pos],p[pos]);
                                 break;
                             }
+                            cursor.moveToNext();
+
                             ++c;
                         }
                     }
